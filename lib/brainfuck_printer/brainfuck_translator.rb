@@ -3,7 +3,7 @@ class BrainfuckTranslator
 
   def initialize(code)
     @code                 = code
-    
+
     @cell_sequence        = Array.new(30000,0)
     @index                = 0
     @correct_code         = true
@@ -13,7 +13,7 @@ class BrainfuckTranslator
     @cell_value           = 0
     @word                 = []
   end
-  
+
   def convert_code
     receive_sequence_of_characters
     process_code
@@ -21,10 +21,10 @@ class BrainfuckTranslator
   end
 
   private
-  
+
   attr_reader :correct_code, :output_values, :cell_sequence,
               :cycle_start_address, :cell, :cell_value, :word, :index
-  
+
   def receive_sequence_of_characters
     @code = code.chars
   end
@@ -32,21 +32,21 @@ class BrainfuckTranslator
   def process_code
     while index < code.length && correct_code == true
       case code[index]
-      when "+"
+      when '+'
         increase_the_value_of_a_cell
-      when "-"
+      when '-'
         reduce_the_value_of_the_cell
-      when "."
+      when '.'
         print_the_value_of_the_cell
-      when ">"
+      when '>'
         go_to_the_cell_forward
-      when "<"
+      when '<'
         go_back_to_the_cell
-      when ","
+      when ','
         get_the_value_entered
-      when "[" 
+      when '['
         start_the_cycle
-      when "]"
+      when ']'
         finish_the_cycle
       else
         @correct_code = false
@@ -55,40 +55,40 @@ class BrainfuckTranslator
       @index += 1
     end
   end
-  
+
   def increase_the_value_of_a_cell
     @cell_value += 1
     @cell_sequence[cell] = cell_value
   end
-  
+
   def reduce_the_value_of_the_cell
     @cell_value -= 1
     @cell_sequence[cell] = cell_value
   end
-  
+
   def print_the_value_of_the_cell
     @output_values.push(cell_sequence[cell])
   end
-  
+
   def go_to_the_cell_forward
     @cell += 1
     @cell_value = cell_sequence[cell]
   end
-  
+
   def go_back_to_the_cell
     @cell -= 1
     @cell_value = cell_sequence[cell]
   end
-  
+
   def get_the_value_entered
     entered_code = gets.chomp
     @cell_sequence[cell] = entered_code.to_i
   end
-  
+
   def start_the_cycle
     @cycle_start_address.push(index)
   end
-  
+
   def finish_the_cycle
     if cell_value > 0
       @index = cycle_start_address.last
@@ -105,7 +105,7 @@ class BrainfuckTranslator
 
     get_the_value_of_the_output
   end
-  
+
   def check_the_code_correctly(character)
     if character <= 127 && character >= 0
       @word = word.push(character.chr)
@@ -113,12 +113,12 @@ class BrainfuckTranslator
       @correct_code = false
     end
   end
-  
+
   def get_the_value_of_the_output
     if correct_code
       word.join
     elsif correct_code == false
-      puts "Не верно введен код."
+      puts 'Не верно введен код.'
     end
   end
 end
